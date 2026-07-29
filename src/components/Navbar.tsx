@@ -1,0 +1,2 @@
+import { ThemeToggle } from './ThemeToggle'
+export function Navbar(){return <header className="nav"><nav className="wrap" aria-label="Main navigation"><a className="brand" href="#top"><span className="mark">HI</span><span className="brand-name">Hafizul Irfan</span></a><div className="links"><a href="#projects">Work</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#contact">Contact</a><ThemeToggle /></div></nav></header>}
