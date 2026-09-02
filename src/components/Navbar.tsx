@@ -1,47 +1,100 @@
 import { useState } from 'react'
 import { ThemeToggle } from './ThemeToggle'
-import logo from '../assets/logo.png'
 
-export function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false)
+interface NavbarProps {
+  currentPath: string
+  navigate: (path: string) => void
+  navigateSection: (sectionId: string) => void
+}
 
-  const toggleMenu = () => setMobileOpen(prev => !prev)
-  const closeMenu = () => setMobileOpen(false)
+export function Navbar({ currentPath, navigate, navigateSection }: NavbarProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const handleNavClick = (sectionId: string) => {
+    setMobileMenuOpen(false)
+    navigateSection(sectionId)
+  }
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setMobileMenuOpen(false)
+    if (currentPath !== '/') {
+      navigate('/')
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
 
   return (
-    <header className="nav">
-      <nav className="wrap nav-wrap" aria-label="Main navigation">
-        <a className="brand" href="#top" onClick={closeMenu}>
-          <img className="mark" src={logo} alt="Hafizul Irfan logo" />
-          <div className="brand-text">
-            <span className="brand-name">Hafizul Irfan</span>
-            <span className="brand-badge">Portfolio</span>
-          </div>
+    <header className="site-header">
+      <div className="header-container">
+        <a className="logo-link" href="/" onClick={handleLogoClick}>
+          <span className="logo-text">Hafizul Irfan</span>
         </a>
 
-        <div className={`links ${mobileOpen ? 'mobile-active' : ''}`}>
-          <a href="#top" onClick={closeMenu}>About</a>
-          <a href="#projects" onClick={closeMenu}>Projects</a>
-          <a href="#experience" onClick={closeMenu}>Experience</a>
-          <a href="#skills" onClick={closeMenu}>Skills</a>
-          <a href="#references" onClick={closeMenu}>Reference</a>
-          <a href="#contact" onClick={closeMenu}>Contact</a>
-          <a className="nav-cta-btn" href="mailto:irfanhafizul123@gmail.com" onClick={closeMenu}>
-            Hire / Intern
+        <nav className={`nav-menu ${mobileMenuOpen ? 'is-open' : ''}`} aria-label="Main Navigation">
+          <button
+            type="button"
+            className="nav-link"
+            onClick={() => handleNavClick('work')}
+          >
+            Work
+          </button>
+          <button
+            type="button"
+            className="nav-link"
+            onClick={() => handleNavClick('about')}
+          >
+            About
+          </button>
+          <button
+            type="button"
+            className="nav-link"
+            onClick={() => handleNavClick('skills')}
+          >
+            Skills
+          </button>
+          <button
+            type="button"
+            className="nav-link"
+            onClick={() => handleNavClick('experience')}
+          >
+            Experience
+          </button>
+          <a
+            className="nav-link resume-link"
+            href="/Hafizul_Irfan_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Resume ↓
           </a>
-          <ThemeToggle />
-        </div>
+          <button
+            type="button"
+            className="nav-link"
+            onClick={() => handleNavClick('contact')}
+          >
+            Contact
+          </button>
 
-        <button
-          className="mobile-toggle"
-          type="button"
-          onClick={toggleMenu}
-          aria-expanded={mobileOpen}
-          aria-label="Toggle navigation menu"
-        >
-          <span className={`hamburger ${mobileOpen ? 'open' : ''}`} />
-        </button>
-      </nav>
+          <div className="nav-toggle-wrap">
+            <ThemeToggle />
+          </div>
+        </nav>
+
+        <div className="mobile-actions">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle menu"
+          >
+            <span className={`menu-bar ${mobileMenuOpen ? 'open' : ''}`} />
+          </button>
+        </div>
+      </div>
     </header>
   )
 }

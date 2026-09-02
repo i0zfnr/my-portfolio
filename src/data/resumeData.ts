@@ -1,194 +1,273 @@
-export interface ProjectItem {
+export interface CaseStudy {
   id: string
+  index: string
   title: string
-  year: string
-  organization: string
-  badge: string
-  description: string
-  features: string[]
-  tags: string[]
-  highlight: string
-}
-
-export interface EducationItem {
-  institution: string
-  qualification: string
-  period: string
-  location: string
-  cgpa?: string
-  stream?: string
-  grades?: string
-  details: string[]
-}
-
-export interface WorkItem {
+  subtitle: string
+  client: string
   role: string
-  company: string
+  year: string
+  type: string
+  stack: string[]
+  summary: string
+  githubUrl?: string
+  liveUrl?: string
+  overview: string
+  problem: string
+  solution: string
+  keyFeatures: string[]
+  technicalWork: {
+    database: string
+    auth: string
+    backend: string
+    frontend: string
+    pwaOrPerf: string
+  }
+  challenges: string
+  whatILearned: string
+  result: string
+}
+
+export interface SkillCategory {
+  category: string
+  skills: string[]
+}
+
+export interface TimelineEntry {
   period: string
-  location: string
-  responsibilities: string[]
-}
-
-export interface ReferenceItem {
-  name: string
   title: string
-  department: string
-  institution: string
-  phone: string
-  email: string
+  organization: string
+  type: 'project' | 'education' | 'work'
+  details?: string
 }
 
-export const resumeData = {
+export const portfolioData = {
   personal: {
-    fullName: 'HAFIZUL IRFAN BIN AHMAD HILMI',
     name: 'Hafizul Irfan',
-    role: 'Diploma in Information Technology Student',
-    subRole: 'Front-End & Web Developer',
-    status: 'Seeking Internship Opportunity',
-    about:
-      'A dedicated Diploma in Information Technology student with strong interpersonal and problem-solving skills. Seeking an internship opportunity to apply academic knowledge, gain hands-on experience, and enhance professional growth. Able to work independently and collaboratively while maintaining a positive and responsible attitude.',
+    fullName: 'Hafizul Irfan bin Ahmad Hilmi',
+    title: 'Full-Stack Web Developer',
+    roleTag: 'Diploma in IT Student',
+    bioHeadline:
+      'Diploma in Information Technology student building practical web applications for education, administration and community services.',
+    aboutShort: [
+      "I'm a Diploma in Information Technology student at Politeknik Besut Terengganu with a focus on web development.",
+      "I enjoy working across the development process — from database design and backend logic to frontend interfaces and deployment.",
+      "My recent work includes systems for student affairs, welfare management and digital learning.",
+    ],
+    education: {
+      degree: 'Diploma in Information Technology',
+      institution: 'Politeknik Besut Terengganu',
+      period: '2024 — Present',
+      cgpa: '3.20',
+    },
+    location: 'Based in Malaysia',
+    status: 'Available for Internship',
     email: 'irfanhafizul123@gmail.com',
     phone: '017-976 4854',
-    intlPhone: '+60179764854',
-    location: 'Besut, Terengganu & Kota Bharu, Kelantan',
     github: 'https://github.com/i0zfnr',
-    instagram: 'https://www.instagram.com/xautsx/',
-    tiktok: 'https://www.tiktok.com/@react.css',
-    website: 'https://reallygreatsite.com',
+    resumeUrl: '/Hafizul_Irfan_Resume.pdf',
   },
-  highlights: [
-    { label: 'Academic Standing', value: '3.20 CGPA', detail: 'Politeknik Besut' },
-    { label: 'Real Systems Built', value: '3 Active Systems', detail: 'JKM & Politeknik Besut' },
-    { label: 'Work Ethic', value: 'Frontline Retail', detail: 'Customer & Team Operations' },
-    { label: 'Status', value: 'Ready for Internship', detail: 'IT & Software Development' },
-  ],
-  projects: [
+
+  caseStudies: [
     {
       id: 'myokucare',
-      title: 'MyOKUCare – Welfare Management System',
+      index: '01',
+      title: 'MyOKUCare',
+      subtitle: 'Welfare Management System',
+      client: 'Jabatan Kebajikan Masyarakat (JKM)',
+      role: 'Full-Stack Developer',
       year: '2026',
-      organization: 'Jabatan Kebajikan Masyarakat (JKM)',
-      badge: 'Public Sector / Welfare',
-      description:
-        'Developed a comprehensive web-based welfare management system for Jabatan Kebajikan Masyarakat (JKM) designed to assist individuals with disabilities (OKU) through accessible digital services.',
-      features: [
-        'OKU profile management and digital record verification',
-        'Streamlined welfare assistance application submission & approval tracking',
-        'Specialized job matching module tailored for OKU opportunities',
-        'Automated reporting dashboards and census compilation',
+      type: 'Web Application',
+      stack: ['Laravel', 'PHP', 'MySQL', 'Blade', 'PWA'],
+      summary:
+        'A web-based welfare management system developed for Jabatan Kebajikan Masyarakat (JKM) to centralize disability registration, welfare case processing, and inclusive job placement.',
+      githubUrl: 'https://github.com/i0zfnr',
+      overview:
+        'MyOKUCare centralises registration for persons with disabilities (OKU), welfare assistance processing, and inclusive job matching into a unified, accessible web system. The platform provides structured digital workflows bridging community applicants with welfare officers and registered inclusive employers.',
+      problem:
+        'Welfare assistance processing and disability records were frequently delayed by manual paper document submissions and fragmented spreadsheet tracking. Applicants had no direct way to track application progress, and welfare officers faced repetitive manual verification cycles when preparing statutory reports.',
+      solution:
+        'Architected an end-to-end management platform using Laravel and MySQL. Designed role-based portals for OKU applicants, welfare officers, and employers—incorporating digital document verification, guided application pipelines, and structured case logs.',
+      keyFeatures: [
+        'OKU Profile Management & Verification: Structured onboarding capturing disability classifications, personal records, and Kad OKU verification uploads.',
+        'Welfare Assistance Lifecycle: Multi-step assistance applications with clear status tracking from initial submission to officer review and committee decisions.',
+        'Inclusive Job Matching Portal: Opportunity board connecting verified OKU jobseekers with inclusive employment listings based on capability tags.',
+        'Administrative Reporting Dashboards: Consolidated administrative summary tools for welfare case distribution, district census, and auditing.',
       ],
-      tags: ['Web Application', 'Front-End', 'Web Accessibility', 'UI/UX Design', 'JKM'],
-      highlight: 'Built with deep emphasis on accessibility standards, ease of use, and inclusive interaction.',
+      technicalWork: {
+        database:
+          'Normalized relational schema in MySQL modeling user identities, OKU profiles, disability categories, welfare aid schemes, application logs, and audit trails.',
+        auth:
+          'Session-based authentication with role-based access control (RBAC), rate-limiting login attempts by IP and email, and inactive account safeguards.',
+        backend:
+          'Constructed modular Laravel service classes (OkuDataService, WelfareReportService, AuditService) to separate domain logic from HTTP controllers.',
+        frontend:
+          'Responsive Blade templates built with accessible semantic HTML, high contrast ratios, readable typography, and complete keyboard navigation.',
+        pwaOrPerf:
+          'Configured service worker caching (sw.js) and web manifest (manifest.webmanifest) for offline resilience and mobile standalone installation.',
+      },
+      challenges:
+        'Designing intuitive forms that strictly comply with accessibility standards (WCAG) for users with varied visual or physical capabilities, while securely handling sensitive personal data like IC numbers and official medical documents.',
+      whatILearned:
+        'Deepened practical knowledge of public sector workflow requirements, building maintainable RBAC architecture in Laravel, and structuring accessible form systems.',
+      result:
+        'Delivered a complete, functional prototype system ready for user acceptance testing (UAT) across welfare administration, officer review, and community applicant scenarios.',
     },
     {
       id: 'myhep',
-      title: 'MyHEP – Student Affairs Management System',
+      index: '02',
+      title: 'MyHEP / StudentEdge',
+      subtitle: 'Student Affairs Management System',
+      client: 'Politeknik Besut Terengganu',
+      role: 'Full-Stack Developer',
       year: '2026',
-      organization: 'Politeknik Besut Terengganu',
-      badge: 'Higher Education / Campus',
-      description:
-        'Developed a dedicated student affairs management system for Politeknik Besut Terengganu, centralizing non-academic student affairs and administrative services.',
-      features: [
-        'Student welfare aid monitoring and emergency welfare support',
-        'Scholarship portal with application tracking and administrative vetting',
-        'Student discipline incident recording and conduct oversight',
-        'Student movement logging, campus permits, and hostel management',
+      type: 'Web Application',
+      stack: ['Laravel', 'PHP', 'MySQL', 'Blade', 'PWA'],
+      summary:
+        'Developed for managing student affairs processes at Politeknik Besut Terengganu, centralizing scholarship applications, welfare aid, and disciplinary tracking.',
+      githubUrl: 'https://github.com/i0zfnr/MyHEP',
+      overview:
+        'MyHEP (StudentEdge) is an institutional web platform created for the Student Affairs Department (Hal Ehwal Pelajar) of Politeknik Besut. It automates essential non-academic campus processes into a single secure, role-based interface.',
+      problem:
+        'Handling student welfare requests, scholarship vetting, and disciplinary records through physical paper forms caused slow turnaround times, missing paperwork, and high friction for administrative committees reviewing historical student records.',
+      solution:
+        'Engineered a centralized campus portal linking students, student affairs officers, and campus administrators. The platform digitizes scholarship applications, tracks emergency welfare aid, logs disciplinary conduct, and manages student movement permissions.',
+      keyFeatures: [
+        'Scholarship Application Workflow: Centralized catalog of campus and state scholarships with direct student filing and administrative vetting.',
+        'Welfare & Emergency Aid Tracking: Formal request pipeline for financial aid and welfare support with administrative disbursement records.',
+        'Disciplinary Record Management: Structured offense logging, incident tracking, and official administrative action oversight.',
+        'Student Movement & Leave Logging: Digital tracking for student campus leave, hostel permits, and curfew compliance.',
       ],
-      tags: ['Web Portal', 'Student Affairs', 'Front-End', 'Role-Based Flow', 'Politeknik Besut'],
-      highlight: 'Simplifies complex campus workflows into an intuitive interface for students and administration.',
+      technicalWork: {
+        database:
+          'Relational MySQL schema linking student matrix registration numbers with scholarship submissions, disciplinary cases, and administrative decisions.',
+        auth:
+          'Multi-guard authentication separating student access from administrative and lecturer officer privilege levels.',
+        backend:
+          'Laravel controllers managing file uploads, request lifecycle transitions, validation rules, and activity logs.',
+        frontend:
+          'Clean, responsive Blade templates compiled via Vite for minimal asset footprint and fast page loads across campus networks.',
+        pwaOrPerf:
+          'Mobile-first responsive layout enabling students to submit leave applications and check scholarship statuses directly from their smartphones.',
+      },
+      challenges:
+        'Enforcing strict data privacy boundaries so students can only access their own submissions while officers have appropriate administrative review privileges.',
+      whatILearned:
+        'Learned how campus administrative requirements translate into software architecture, and how to manage secure document uploads and multi-stage approval lifecycles.',
+      result:
+        'Produced an operational student management system that eliminates manual paper handling across core student affairs operations.',
     },
     {
       id: 'flipbook',
-      title: 'FlipBook – Interactive E-Book Platform',
+      index: '03',
+      title: 'FlipBook',
+      subtitle: 'Interactive E-Book Platform',
+      client: 'Politeknik Besut Terengganu',
+      role: 'Full-Stack Developer',
       year: '2025 – 2026',
+      type: 'Web Application',
+      stack: ['React', 'TypeScript', 'Laravel API', 'Tailwind CSS', 'Vite'],
+      summary:
+        'A responsive web platform for publishing and reading interactive digital learning materials and academic course modules across desktop and mobile devices.',
+      githubUrl: 'https://github.com/i0zfnr',
+      liveUrl: 'https://portfolio.ryz.my.id',
+      overview:
+        'FlipBook is a modern web-based academic e-book platform designed for Politeknik Besut to deliver digital learning modules, syllabus guides, and course materials with an interactive, book-like reading experience.',
+      problem:
+        'Students accessing academic PDF handouts on mobile devices frequently encountered awkward zooming, clunky navigation, and poor legibility that discouraged self-paced study.',
+      solution:
+        'Engineered an interactive e-book platform combining a responsive frontend reading engine with a structured backend content management API, offering smooth page-turn interactions, chapter navigation, and bookmarking.',
+      keyFeatures: [
+        'Interactive Page Reader: Page-turning engine with zoom controls, table of contents drawer, and distraction-free viewing mode.',
+        'Course Module Catalog: Categorized academic library allowing students to browse coursework by semester and subject.',
+        'Cross-Device Responsiveness: Seamless reading experience optimized for touch gestures on mobile and keyboard navigation on desktop.',
+        'Fast Asset Delivery: Lightweight client-side rendering with asset preloading for instant page transitions.',
+      ],
+      technicalWork: {
+        database:
+          'Relational database modeling publication metadata, chapters, reader progress, and course categorizations.',
+        auth:
+          'API token authentication for administrative book uploads and student reading sessions.',
+        backend:
+          'Laravel REST API serving structured book metadata, chapter endpoints, and reading progress state.',
+        frontend:
+          'Constructed with React 19, TypeScript, and Vite for near-instant client execution and strict compile-time type safety.',
+        pwaOrPerf:
+          'Carefully minimized DOM overhead during continuous page rendering, using CSS hardware acceleration for smooth 60fps page turns.',
+      },
+      challenges:
+        'Creating fluid page-flip animations without causing layout thrashing or battery drain on lower-spec student mobile devices.',
+      whatILearned:
+        'Gained practical experience with advanced CSS transforms, touch gesture event handling, and decoupling frontend interactive engines from backend content APIs.',
+      result:
+        'Delivered a lightweight, accessible digital reading platform adopted for academic coursework at Politeknik Besut.',
+    },
+  ] as CaseStudy[],
+
+  skillsMatrix: [
+    {
+      category: 'Frontend',
+      skills: ['HTML5', 'CSS3', 'JavaScript', 'Blade', 'Responsive Design', 'React'],
+    },
+    {
+      category: 'Backend',
+      skills: ['PHP', 'Laravel', 'REST APIs', 'Node.js'],
+    },
+    {
+      category: 'Database',
+      skills: ['MySQL', 'Database Design', 'Relational Modeling'],
+    },
+    {
+      category: 'Tools',
+      skills: ['Git', 'GitHub', 'VS Code', 'Vite', 'Composer', 'npm'],
+    },
+    {
+      category: 'Other',
+      skills: ['PWA', 'UI/UX Design', 'Web Accessibility (WCAG)', 'Deployment'],
+    },
+  ] as SkillCategory[],
+
+  timeline: [
+    {
+      period: '2026',
+      title: 'MyOKUCare',
+      organization: 'Welfare Management System · JKM',
+      type: 'project',
+      details: 'Full-Stack Developer / Project Developer (Laravel, PHP, MySQL, Blade, PWA)',
+    },
+    {
+      period: '2026',
+      title: 'MyHEP / StudentEdge',
+      organization: 'Student Affairs Management System · Politeknik Besut',
+      type: 'project',
+      details: 'Full-Stack Developer / Project Developer (Laravel, PHP, MySQL, Blade, PWA)',
+    },
+    {
+      period: '2025 – 2026',
+      title: 'FlipBook',
+      organization: 'Interactive E-Book Platform · Politeknik Besut',
+      type: 'project',
+      details: 'Full-Stack Web Developer (React, TypeScript, Laravel API, Tailwind)',
+    },
+    {
+      period: '2024 — Present',
+      title: 'Diploma in Information Technology',
       organization: 'Politeknik Besut Terengganu',
-      badge: 'EdTech / Interactive E-Book',
-      description:
-        'Developed an interactive web-based e-book platform for Politeknik Besut to provide students and faculty digital access to academic learning materials and coursework.',
-      features: [
-        'Interactive reading experience with intuitive navigation, zooming, and chapter browsing',
-        'Centralized digital access to official learning modules, lecture notes, and references',
-        'Fully responsive layout optimized for fluid reading across mobile, tablet, and desktop',
-        'Reader-first interface designed with high contrast, legible typography, and low latency',
-      ],
-      tags: ['Web Application', 'Interactive Reader', 'EdTech', 'Responsive UI', 'Politeknik Besut'],
-      highlight: 'Engineered a seamless cross-device digital reading experience to enhance student learning access.',
-    },
-  ] as ProjectItem[],
-  education: [
-    {
-      institution: 'Politeknik Besut, Terengganu',
-      qualification: 'Diploma in Information Technology',
-      period: '2024 – Present',
-      location: 'Besut, Terengganu',
-      cgpa: '3.20',
-      details: [
-        'Currently pursuing Diploma in Information Technology with consistent academic achievement (CGPA: 3.20).',
-        'Core subjects: Front-End & Web Development, Database Systems, Computer Networks, and System Analysis.',
-        'Active in campus tech projects and student affairs software initiatives.',
-      ],
+      type: 'education',
+      details: 'Currently pursuing with CGPA: 3.20. Focus on web development, databases & systems.',
     },
     {
-      institution: 'Sekolah Menengah Kebangsaan Kota, Kota Bharu Kolej',
-      qualification: 'Sijil Pelajaran Malaysia (SPM)',
-      period: '2019 – 2023',
-      location: 'Kota Bharu, Kelantan',
-      stream: 'Computer Science and Reka Cipta (Invention/Design)',
-      grades: '1A, 5B, 1C, 1D, 1E',
-      details: [
-        'Specialized in Computer Science principles and creative Reka Cipta problem solving.',
-        'Established strong early groundwork in algorithmic thinking and practical design.',
-      ],
-    },
-  ] as EducationItem[],
-  work: [
-    {
-      role: 'Shop Assistant (Part-Time)',
-      company: 'All About Bakes',
-      period: 'June – Ogos 2025',
-      location: 'Kota Bharu, Kelantan',
-      responsibilities: [
-        'Delivered friendly and attentive customer service in a busy bakery retail setting.',
-        'Managed merchandise displays, stock replenishment, and daily cash register transactions.',
-        'Demonstrated strong accountability, punctuality, and positive collaborative work ethic.',
-      ],
-    },
-  ] as WorkItem[],
-  skills: [
-    {
-      category: 'Front-End & Core Web',
-      skills: [
-        { name: 'Front-End Development', note: 'Modern HTML5, CSS3, JavaScript, React' },
-        { name: 'Web Accessibility (a11y)', note: 'Inclusive UX, semantic markup, contrast standards' },
-        { name: 'SEO Fundamentals', note: 'Search engine visibility, meta structure, speed' },
-      ],
+      period: 'June — Aug 2025',
+      title: 'Shop Assistant (Part-Time)',
+      organization: 'All About Bakes, Kota Bharu',
+      type: 'work',
+      details: 'Retail customer service, stock handling, cash operations, and team coordination.',
     },
     {
-      category: 'Design & Visual Principles',
-      skills: [
-        { name: 'Web Design Tools', note: 'Visual prototyping, wireframes, style systems' },
-        { name: 'UI/UX Design', note: 'User journey, clean interface hierarchy, interaction flow' },
-        { name: 'Color Theory & Typography', note: 'Palette harmony, readability, type hierarchy' },
-      ],
+      period: '2019 — 2023',
+      title: 'Sijil Pelajaran Malaysia (SPM)',
+      organization: 'SMK Kota, Kota Bharu',
+      type: 'education',
+      details: 'Specialized in Computer Science & Reka Cipta (Invention/Design).',
     },
-    {
-      category: 'Workflow & Tools',
-      skills: [
-        { name: 'Version Control (Git/GitHub)', note: 'Branching, clean commit history, code collaboration' },
-        { name: 'Responsive Layouts', note: 'Flawless presentation on mobile, tablet, and widescreen' },
-      ],
-    },
-  ],
-  languages: [
-    { name: 'Malay (Bahasa Melayu)', level: 'Fluent / Native', percentage: 100 },
-    { name: 'English', level: 'Intermediate (Working Proficiency)', percentage: 75 },
-  ],
-  reference: {
-    name: 'NORAZLINA BINTI ABDULLAH',
-    title: 'Pensyarah (Lecturer)',
-    department: 'Jabatan Teknologi Maklumat & Komunikasi (JTMK)',
-    institution: 'Politeknik Besut, Terengganu',
-    phone: '019-936 8875',
-    email: 'azlina@polibesut.edu.my',
-  } as ReferenceItem,
+  ] as TimelineEntry[],
 }

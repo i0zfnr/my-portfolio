@@ -1,70 +1,238 @@
-import { resumeData } from '../data/resumeData'
+import { portfolioData, type CaseStudy } from '../data/resumeData'
 
-export function Projects() {
-  const { projects } = resumeData
+interface ProjectsProps {
+  navigate: (path: string) => void
+}
+
+export function Projects({ navigate }: ProjectsProps) {
+  const { caseStudies } = portfolioData
+
+  const renderProjectVisual = (project: CaseStudy) => {
+    if (project.id === 'myokucare') {
+      return (
+        <div className="project-visual-frame" aria-label="MyOKUCare System Interface Preview">
+          <div className="window-header">
+            <div className="window-dots">
+              <span className="dot" />
+              <span className="dot" />
+              <span className="dot" />
+            </div>
+            <span className="window-title">myokucare.jkm.gov.my / dashboard</span>
+          </div>
+          <div className="window-body">
+            <div className="app-mock-sidebar">
+              <div className="mock-brand">MyOKUcare</div>
+              <div className="mock-nav-item active">Dashboard</div>
+              <div className="mock-nav-item">OKU Profiles</div>
+              <div className="mock-nav-item">Welfare Cases</div>
+              <div className="mock-nav-item">Job Matching</div>
+              <div className="mock-nav-item">Reports</div>
+            </div>
+            <div className="app-mock-content">
+              <div className="mock-topbar">
+                <span className="mock-badge">JKM Officer Portal</span>
+                <span className="mock-status">RBAC: Active Session</span>
+              </div>
+              <div className="mock-card-row">
+                <div className="mock-metric-card">
+                  <span className="metric-num">Verified</span>
+                  <span className="metric-text">Kad OKU Verification Queue</span>
+                </div>
+                <div className="mock-metric-card">
+                  <span className="metric-num">Applications</span>
+                  <span className="metric-text">Welfare Aid Review &amp; SOP</span>
+                </div>
+              </div>
+              <div className="mock-table">
+                <div className="table-header-row">
+                  <span>Applicant ID</span>
+                  <span>Disability Category</span>
+                  <span>Status</span>
+                </div>
+                <div className="table-row">
+                  <span>OKU-2026-0812</span>
+                  <span>Physical / Mobility</span>
+                  <span className="table-badge approved">Approved</span>
+                </div>
+                <div className="table-row">
+                  <span>OKU-2026-0845</span>
+                  <span>Hearing Impairment</span>
+                  <span className="table-badge review">In Review</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    if (project.id === 'myhep') {
+      return (
+        <div className="project-visual-frame" aria-label="MyHEP System Interface Preview">
+          <div className="window-header">
+            <div className="window-dots">
+              <span className="dot" />
+              <span className="dot" />
+              <span className="dot" />
+            </div>
+            <span className="window-title">myhep.polibesut.edu.my / studentedge</span>
+          </div>
+          <div className="window-body">
+            <div className="app-mock-sidebar">
+              <div className="mock-brand">MyHEP</div>
+              <div className="mock-nav-item active">Overview</div>
+              <div className="mock-nav-item">Scholarships</div>
+              <div className="mock-nav-item">Welfare Aid</div>
+              <div className="mock-nav-item">Disciplinary</div>
+              <div className="mock-nav-item">Outing / Leave</div>
+            </div>
+            <div className="app-mock-content">
+              <div className="mock-topbar">
+                <span className="mock-badge">Student Affairs (HEP)</span>
+                <span className="mock-status">Campus Portal</span>
+              </div>
+              <div className="mock-card-row">
+                <div className="mock-metric-card">
+                  <span className="metric-num">Scholarships</span>
+                  <span className="metric-text">Vetting &amp; Review Pipeline</span>
+                </div>
+                <div className="mock-metric-card">
+                  <span className="metric-num">Student Aid</span>
+                  <span className="metric-text">Emergency Support Tracking</span>
+                </div>
+              </div>
+              <div className="mock-table">
+                <div className="table-header-row">
+                  <span>Student ID</span>
+                  <span>Module Request</span>
+                  <span>Decision</span>
+                </div>
+                <div className="table-row">
+                  <span>13DIT24F1011</span>
+                  <span>State Merit Scholarship</span>
+                  <span className="table-badge approved">Verified</span>
+                </div>
+                <div className="table-row">
+                  <span>13DIT24F1034</span>
+                  <span>Hostel Weekend Movement</span>
+                  <span className="table-badge neutral">Approved</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <div className="project-visual-frame" aria-label="FlipBook Interactive Reader Interface Preview">
+        <div className="window-header">
+          <div className="window-dots">
+            <span className="dot" />
+            <span className="dot" />
+            <span className="dot" />
+          </div>
+          <span className="window-title">flipbook.polibesut.edu.my / reader</span>
+        </div>
+        <div className="window-body flipbook-body">
+          <div className="flipbook-reader-layout">
+            <div className="reader-toc">
+              <span className="toc-title">Table of Contents</span>
+              <span className="toc-item active">01. Course Overview</span>
+              <span className="toc-item">02. Web Architecture</span>
+              <span className="toc-item">03. Database Relational Modeling</span>
+              <span className="toc-item">04. API Integration &amp; REST</span>
+            </div>
+            <div className="reader-page-spread">
+              <div className="reader-page left-page">
+                <span className="page-chapter">Chapter 02</span>
+                <h4>Web System Architecture</h4>
+                <p>Digital learning modules optimized for continuous client reading across mobile and desktop displays.</p>
+                <div className="code-snippet-preview">
+                  <code>composer create-project laravel/laravel</code>
+                </div>
+                <span className="page-footer">Page 24</span>
+              </div>
+              <div className="reader-page right-page">
+                <span className="page-chapter">Politeknik Besut</span>
+                <h4>Responsive Reader View</h4>
+                <p>Hardware-accelerated CSS page turns with low latency and clear typographical contrast ratios.</p>
+                <span className="page-footer">Page 25</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <section className="section" id="projects">
-      <div className="heading">
-        <div>
-          <span className="kicker">Systems &amp; Applications</span>
-          <h2>Featured Projects</h2>
-        </div>
-        <p className="intro">
-          Key web applications developed for public sector welfare and higher education campus management, focusing on accessibility, usability, and data workflows.
+    <section className="section-block" id="work">
+      <div className="section-header">
+        <h2 className="section-title">Selected Work</h2>
+        <p className="section-subtitle">
+          Practical web systems engineered for public sector welfare, higher education administration, and digital academic publishing.
         </p>
       </div>
 
-      <div className="projects-grid">
-        {projects.map((project, index) => (
-          <article className="project-card" key={project.id}>
-            <div className="project-header">
-              <div className="project-meta">
-                <span className="project-index">0{index + 1}</span>
-                <span className="project-badge">{project.badge}</span>
-                <span className="project-year">{project.year}</span>
+      <div className="projects-showcase">
+        {caseStudies.map((project) => (
+          <article className="project-feature" key={project.id}>
+            <div className="project-info">
+              <div className="project-index-line">
+                <span className="project-number">{project.index}</span>
+                <span className="project-divider">/</span>
+                <span className="project-client">{project.client}</span>
               </div>
-              <h3 className="project-title">{project.title}</h3>
-              <p className="project-org">
-                <svg className="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-                {project.organization}
-              </p>
-            </div>
 
-            <p className="project-desc">{project.description}</p>
+              <h3 className="project-heading">{project.title}</h3>
+              <p className="project-sub">{project.subtitle}</p>
 
-            <div className="project-features-container">
-              <h4 className="features-title">Key Capabilities &amp; Modules:</h4>
-              <ul className="project-features">
-                {project.features.map((feature, i) => (
-                  <li key={i}>
-                    <svg className="feature-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span>{feature}</span>
-                  </li>
+              <p className="project-summary">{project.summary}</p>
+
+              <div className="tech-stack-row">
+                {project.stack.map((tech) => (
+                  <span className="tech-tag" key={tech}>
+                    {tech}
+                  </span>
                 ))}
-              </ul>
+              </div>
+
+              <div className="project-links-row">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => navigate(`/projects/${project.id}`)}
+                >
+                  View Case Study →
+                </button>
+
+                {project.liveUrl && (
+                  <a
+                    className="btn btn-secondary"
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Live Website ↗
+                  </a>
+                )}
+
+                {project.githubUrl && (
+                  <a
+                    className="btn btn-secondary"
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub ↗
+                  </a>
+                )}
+              </div>
             </div>
 
-            <div className="project-highlight-box">
-              <svg className="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
-              </svg>
-              <span>{project.highlight}</span>
-            </div>
-
-            <div className="tags">
-              {project.tags.map((tag) => (
-                <span className="tag" key={tag}>
-                  #{tag}
-                </span>
-              ))}
+            <div className="project-display">
+              {renderProjectVisual(project)}
             </div>
           </article>
         ))}
