@@ -5,12 +5,31 @@ interface ProjectsProps {
   navigate: (path: string) => void
 }
 
+type ViewportMode = 'desktop' | 'tablet' | 'mobile'
+
 export function Projects({ navigate }: ProjectsProps) {
   const { caseStudies } = portfolioData
-  const [activePreviewId, setActivePreviewId] = useState<string | null>(null)
+  const [activePreviews, setActivePreviews] = useState<Record<string, boolean>>({})
+  const [viewports, setViewports] = useState<Record<string, ViewportMode>>({})
+
+  const loadPreview = (projectId: string) => {
+    setActivePreviews((prev) => ({ ...prev, [projectId]: true }))
+    if (!viewports[projectId]) {
+      setViewports((prev) => ({ ...prev, [projectId]: 'desktop' }))
+    }
+  }
+
+  const closePreview = (projectId: string) => {
+    setActivePreviews((prev) => ({ ...prev, [projectId]: false }))
+  }
+
+  const changeViewport = (projectId: string, mode: ViewportMode) => {
+    setViewports((prev) => ({ ...prev, [projectId]: mode }))
+  }
 
   const renderProjectVisual = (project: CaseStudy) => {
-    const isLivePreviewActive = activePreviewId === project.id
+    const isLive = activePreviews[project.id]
+    const viewport = viewports[project.id] || 'desktop'
     const displayDomain = project.liveUrl
       ? project.liveUrl.replace(/^https?:\/\//, '')
       : `${project.id}.ryz.my.id`
@@ -18,9 +37,9 @@ export function Projects({ navigate }: ProjectsProps) {
     return (
       <div
         className="project-visual-frame"
-        aria-label={`${project.title} Interface Preview`}
+        aria-label={`${project.title} Live Application Window`}
       >
-        {/* Minimal Browser Frame Header */}
+        {/* Browser Frame Window Header */}
         <div className="window-header">
           <div className="window-dots">
             <span className="dot" />
@@ -30,86 +49,108 @@ export function Projects({ navigate }: ProjectsProps) {
 
           <span className="window-title">{displayDomain}</span>
 
-          <div className="window-header-actions">
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="window-action-link"
-                title={`Open ${displayDomain} in new tab`}
-              >
-                Open Live Site ↗
-              </a>
+          <div className="window-header-controls">
+            {isLive ? (
+              <>
+                <div className="viewport-toggle-group" role="group" aria-label="Simulated viewport size">
+                  <button
+                    type="button"
+                    className={`viewport-btn ${viewport === 'desktop' ? 'active' : ''}`}
+                    onClick={() => changeViewport(project.id, 'desktop')}
+                  >
+                    Desktop
+                  </button>
+                  <button
+                    type="button"
+                    className={`viewport-btn ${viewport === 'tablet' ? 'active' : ''}`}
+                    onClick={() => changeViewport(project.id, 'tablet')}
+                  >
+                    Tablet
+                  </button>
+                  <button
+                    type="button"
+                    className={`viewport-btn ${viewport === 'mobile' ? 'active' : ''}`}
+                    onClick={() => changeViewport(project.id, 'mobile')}
+                  >
+                    Mobile
+                  </button>
+                </div>
+
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="window-action-link"
+                >
+                  Open Full Site ↗
+                </a>
+
+                <button
+                  type="button"
+                  className="window-close-btn"
+                  onClick={() => closePreview(project.id)}
+                  aria-label="Close live preview"
+                  title="Close live preview session"
+                >
+                  ✕
+                </button>
+              </>
+            ) : (
+              project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="window-action-link"
+                >
+                  Open Live Site ↗
+                </a>
+              )
             )}
           </div>
         </div>
 
-        {/* Preview Display Area: Real Screenshot or On-Demand Interactive Iframe */}
+        {/* Browser Body: Activation Placeholder OR Actual Live Iframe */}
         <div className="project-preview-canvas">
-          {isLivePreviewActive && project.liveUrl ? (
-            <div className="interactive-iframe-container">
+          {isLive && project.liveUrl ? (
+            <div className={`preview-viewport-stage viewport-${viewport}`}>
               <iframe
                 src={project.liveUrl}
-                title={`${project.title} Interactive Live Preview`}
-                className="preview-iframe-element"
-                sandbox="allow-scripts allow-same-origin allow-forms"
+                title={`${project.title} Live Application`}
+                className="live-application-iframe"
                 loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
               />
-              <div className="iframe-control-bar">
-                <span className="iframe-note">
-                  Interactive preview session · If restricted by browser CSP, open directly
-                </span>
-                <div className="iframe-btns">
+            </div>
+          ) : (
+            <div className="preview-activation-screen">
+              <div className="activation-content">
+                <span className="activation-badge">LIVE APPLICATION</span>
+                <h4 className="activation-title">{project.title.toUpperCase()}</h4>
+                <p className="activation-domain">{displayDomain}</p>
+
+                <div className="activation-actions">
+                  <button
+                    type="button"
+                    className="btn-activate-live"
+                    onClick={() => loadPreview(project.id)}
+                  >
+                    <span className="play-icon">▶</span> Load Live Preview
+                  </button>
+
                   <a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="iframe-bar-btn"
+                    className="btn-open-external"
                   >
                     Open Full Site ↗
                   </a>
-                  <button
-                    type="button"
-                    className="iframe-bar-btn close-btn"
-                    onClick={() => setActivePreviewId(null)}
-                  >
-                    Close Preview ✕
-                  </button>
                 </div>
-              </div>
-            </div>
-          ) : (
-            <div className="preview-screenshot-wrapper">
-              <img
-                src={project.screenshotUrl}
-                alt={project.screenshotAlt || `${project.title} interface screenshot`}
-                className="preview-screenshot-image"
-                loading="lazy"
-                decoding="async"
-              />
 
-              <div className="preview-overlay-bar">
-                {project.liveUrl && (
-                  <>
-                    <button
-                      type="button"
-                      className="preview-action-btn secondary"
-                      onClick={() => setActivePreviewId(project.id)}
-                      title="Load live interactive preview inside frame"
-                    >
-                      Interactive Preview
-                    </button>
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="preview-action-btn primary"
-                    >
-                      Open Live Site ↗
-                    </a>
-                  </>
-                )}
+                <span className="activation-note">
+                  Loads the actual deployed website interactively inside this browser frame.
+                </span>
               </div>
             </div>
           )}
@@ -166,7 +207,7 @@ export function Projects({ navigate }: ProjectsProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Open Live Site ↗
+                    Open Full Site ↗
                   </a>
                 )}
 
