@@ -15,7 +15,9 @@ export function Projects({ navigate }: ProjectsProps) {
           <span className="dot" />
           <span className="dot" />
         </div>
-        <span className="window-title">SYSTEM SPEC // {project.id.toUpperCase()}</span>
+        <span className="window-title">
+          {project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, '') : `SYSTEM SPEC // ${project.id.toUpperCase()}`}
+        </span>
         <span className="window-meta-tag">{project.year}</span>
       </div>
 
