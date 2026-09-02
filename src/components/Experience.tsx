@@ -8,7 +8,7 @@ export function Experience() {
       <div className="section-header">
         <h2 className="section-title">Experience &amp; Education</h2>
         <p className="section-subtitle">
-          Practical systems development, academic coursework, and frontline team background.
+          My progression from first programming explorations to building full-stack web systems.
         </p>
       </div>
 

@@ -74,14 +74,13 @@ export const portfolioData = {
       index: '01',
       title: 'MyOKUCare',
       subtitle: 'Welfare Management System',
-      client: 'Jabatan Kebajikan Masyarakat (JKM)',
+      client: 'Welfare management project',
       role: 'Full-Stack Developer',
       year: '2026',
       type: 'Web Application',
       stack: ['Laravel', 'PHP', 'MySQL', 'Blade', 'PWA'],
       summary:
-        'A web-based welfare management system developed for Jabatan Kebajikan Masyarakat (JKM) to centralize disability registration, welfare case processing, and inclusive job placement.',
-      githubUrl: 'https://github.com/i0zfnr',
+        'A web application for disability records, welfare assistance requests and inclusive job matching.',
       overview:
         'MyOKUCare centralises registration for persons with disabilities (OKU), welfare assistance processing, and inclusive job matching into a unified, accessible web system. The platform provides structured digital workflows bridging community applicants with welfare officers and registered inclusive employers.',
       problem:
@@ -228,45 +227,43 @@ export const portfolioData = {
   timeline: [
     {
       period: '2026',
-      title: 'MyOKUCare',
-      organization: 'Welfare Management System · JKM',
+      title: 'Real-World Systems',
+      organization: 'MyOKUCare · MyHEP/StudentEdge · FlipBook',
       type: 'project',
-      details: 'Full-Stack Developer / Project Developer (Laravel, PHP, MySQL, Blade, PWA)',
+      details:
+        'Developed MyOKUCare, MyHEP/StudentEdge, and FlipBook, moving from smaller programming projects toward complete web systems.',
     },
     {
-      period: '2026',
-      title: 'MyHEP / StudentEdge',
-      organization: 'Student Affairs Management System · Politeknik Besut',
+      period: '2025–2026',
+      title: 'Full-Stack Development',
+      organization: 'Laravel · PHP · MySQL · JavaScript · PWA',
       type: 'project',
-      details: 'Full-Stack Developer / Project Developer (Laravel, PHP, MySQL, Blade, PWA)',
-    },
-    {
-      period: '2025 – 2026',
-      title: 'FlipBook',
-      organization: 'Interactive E-Book Platform · Politeknik Besut',
-      type: 'project',
-      details: 'Full-Stack Web Developer (React, TypeScript, Laravel API, Tailwind)',
+      details:
+        'Moved into larger web projects using Laravel, PHP, MySQL, JavaScript, and PWA technologies.',
     },
     {
       period: '2024 — Present',
       title: 'Diploma in Information Technology',
       organization: 'Politeknik Besut Terengganu',
       type: 'education',
-      details: 'Currently pursuing with CGPA: 3.20. Focus on web development, databases & systems.',
+      details:
+        'Continued my studies at Politeknik Besut Terengganu, expanding into web development, databases, networking, and software development.',
     },
     {
-      period: 'June — Aug 2025',
-      title: 'Shop Assistant (Part-Time)',
-      organization: 'All About Bakes, Kota Bharu',
-      type: 'work',
-      details: 'Retail customer service, stock handling, cash operations, and team coordination.',
-    },
-    {
-      period: '2019 — 2023',
-      title: 'Sijil Pelajaran Malaysia (SPM)',
-      organization: 'SMK Kota, Kota Bharu',
+      period: '2022/2023',
+      title: 'Computer Science',
+      organization: 'Form 4 & 5 Foundation',
       type: 'education',
-      details: 'Specialized in Computer Science & Reka Cipta (Invention/Design).',
+      details:
+        'Studied Computer Science in Form 4, developing a stronger foundation in programming and computational thinking.',
+    },
+    {
+      period: '2020',
+      title: 'First Steps in Coding & Robotics',
+      organization: 'Arduino & RBTX Petrosains',
+      type: 'project',
+      details:
+        'Started exploring programming through Arduino and sumo robot development, later participating in an RBTX Petrosains robotics competition.',
     },
   ] as TimelineEntry[],
 }
