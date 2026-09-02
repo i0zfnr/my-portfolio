@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { portfolioData, type CaseStudy } from '../data/resumeData'
 
 interface ProjectsProps {
@@ -7,157 +7,157 @@ interface ProjectsProps {
 
 type ViewportMode = 'desktop' | 'tablet' | 'mobile'
 
-export function Projects({ navigate }: ProjectsProps) {
-  const { caseStudies } = portfolioData
-  const [activePreviews, setActivePreviews] = useState<Record<string, boolean>>({})
-  const [viewports, setViewports] = useState<Record<string, ViewportMode>>({})
+function ProjectLivePreview({ project }: { project: CaseStudy }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [shouldLoad, setShouldLoad] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [viewport, setViewport] = useState<ViewportMode>('desktop')
+  const [loadError, setLoadError] = useState(false)
 
-  const loadPreview = (projectId: string) => {
-    setActivePreviews((prev) => ({ ...prev, [projectId]: true }))
-    if (!viewports[projectId]) {
-      setViewports((prev) => ({ ...prev, [projectId]: 'desktop' }))
+  const displayDomain = project.liveUrl
+    ? project.liveUrl.replace(/^https?:\/\//, '')
+    : `${project.id}.ryz.my.id`
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+
+    // Fallback if IntersectionObserver is unsupported
+    if (!('IntersectionObserver' in window)) {
+      setShouldLoad(true)
+      return
     }
-  }
 
-  const closePreview = (projectId: string) => {
-    setActivePreviews((prev) => ({ ...prev, [projectId]: false }))
-  }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setShouldLoad(true)
+            observer.disconnect()
+            break
+          }
+        }
+      },
+      {
+        rootMargin: '300px 0px',
+        threshold: 0.01,
+      }
+    )
 
-  const changeViewport = (projectId: string, mode: ViewportMode) => {
-    setViewports((prev) => ({ ...prev, [projectId]: mode }))
-  }
+    observer.observe(el)
 
-  const renderProjectVisual = (project: CaseStudy) => {
-    const isLive = activePreviews[project.id]
-    const viewport = viewports[project.id] || 'desktop'
-    const displayDomain = project.liveUrl
-      ? project.liveUrl.replace(/^https?:\/\//, '')
-      : `${project.id}.ryz.my.id`
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
 
-    return (
-      <div
-        className="project-visual-frame"
-        aria-label={`${project.title} Live Application Window`}
-      >
-        {/* Browser Frame Window Header */}
-        <div className="window-header">
-          <div className="window-dots">
-            <span className="dot" />
-            <span className="dot" />
-            <span className="dot" />
-          </div>
-
-          <span className="window-title">{displayDomain}</span>
-
-          <div className="window-header-controls">
-            {isLive ? (
-              <>
-                <div className="viewport-toggle-group" role="group" aria-label="Simulated viewport size">
-                  <button
-                    type="button"
-                    className={`viewport-btn ${viewport === 'desktop' ? 'active' : ''}`}
-                    onClick={() => changeViewport(project.id, 'desktop')}
-                  >
-                    Desktop
-                  </button>
-                  <button
-                    type="button"
-                    className={`viewport-btn ${viewport === 'tablet' ? 'active' : ''}`}
-                    onClick={() => changeViewport(project.id, 'tablet')}
-                  >
-                    Tablet
-                  </button>
-                  <button
-                    type="button"
-                    className={`viewport-btn ${viewport === 'mobile' ? 'active' : ''}`}
-                    onClick={() => changeViewport(project.id, 'mobile')}
-                  >
-                    Mobile
-                  </button>
-                </div>
-
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="window-action-link"
-                >
-                  Open Full Site ↗
-                </a>
-
-                <button
-                  type="button"
-                  className="window-close-btn"
-                  onClick={() => closePreview(project.id)}
-                  aria-label="Close live preview"
-                  title="Close live preview session"
-                >
-                  ✕
-                </button>
-              </>
-            ) : (
-              project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="window-action-link"
-                >
-                  Open Live Site ↗
-                </a>
-              )
-            )}
-          </div>
+  return (
+    <div
+      ref={containerRef}
+      className="project-visual-frame"
+      aria-label={`${project.title} Live Application Window`}
+    >
+      {/* Browser Frame Window Header */}
+      <div className="window-header">
+        <div className="window-dots">
+          <span className="dot" />
+          <span className="dot" />
+          <span className="dot" />
         </div>
 
-        {/* Browser Body: Activation Placeholder OR Actual Live Iframe */}
-        <div className="project-preview-canvas">
-          {isLive && project.liveUrl ? (
-            <div className={`preview-viewport-stage viewport-${viewport}`}>
-              <iframe
-                src={project.liveUrl}
-                title={`${project.title} Live Application`}
-                className="live-application-iframe"
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
-              />
-            </div>
-          ) : (
-            <div className="preview-activation-screen">
-              <div className="activation-content">
-                <span className="activation-badge">LIVE APPLICATION</span>
-                <h4 className="activation-title">{project.title.toUpperCase()}</h4>
-                <p className="activation-domain">{displayDomain}</p>
+        <span className="window-title">{displayDomain}</span>
 
-                <div className="activation-actions">
-                  <button
-                    type="button"
-                    className="btn-activate-live"
-                    onClick={() => loadPreview(project.id)}
-                  >
-                    <span className="play-icon">▶</span> Load Live Preview
-                  </button>
+        <div className="window-header-controls">
+          <div
+            className="viewport-toggle-group"
+            role="group"
+            aria-label="Simulated viewport size"
+          >
+            <button
+              type="button"
+              className={`viewport-btn ${viewport === 'desktop' ? 'active' : ''}`}
+              onClick={() => setViewport('desktop')}
+            >
+              Desktop
+            </button>
+            <button
+              type="button"
+              className={`viewport-btn ${viewport === 'tablet' ? 'active' : ''}`}
+              onClick={() => setViewport('tablet')}
+            >
+              Tablet
+            </button>
+            <button
+              type="button"
+              className={`viewport-btn ${viewport === 'mobile' ? 'active' : ''}`}
+              onClick={() => setViewport('mobile')}
+            >
+              Mobile
+            </button>
+          </div>
 
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-open-external"
-                  >
-                    Open Full Site ↗
-                  </a>
-                </div>
-
-                <span className="activation-note">
-                  Loads the actual deployed website interactively inside this browser frame.
-                </span>
-              </div>
-            </div>
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="window-action-link"
+              title={`Open ${displayDomain} in new tab`}
+            >
+              Open Full Site ↗
+            </a>
           )}
         </div>
       </div>
-    )
-  }
+
+      {/* Browser Body: Auto-loaded live iframe with subtle loading state */}
+      <div className="project-preview-canvas">
+        {shouldLoad && project.liveUrl ? (
+          <div className={`preview-viewport-stage viewport-${viewport}`}>
+            {isLoading && !loadError && (
+              <div className="preview-loading-overlay">
+                <span className="preview-loading-pulse" />
+                <span className="preview-loading-text">Loading live application...</span>
+              </div>
+            )}
+
+            {loadError ? (
+              <div className="preview-error-fallback">
+                <p className="preview-error-title">Live preview unavailable.</p>
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary"
+                >
+                  Open Full Site ↗
+                </a>
+              </div>
+            ) : (
+              <iframe
+                src={project.liveUrl}
+                title={`${project.title} Live Application`}
+                className={`live-application-iframe ${isLoading ? 'is-loading' : 'is-ready'}`}
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
+                onLoad={() => setIsLoading(false)}
+                onError={() => setLoadError(true)}
+              />
+            )}
+          </div>
+        ) : (
+          <div className="preview-loading-overlay">
+            <span className="preview-loading-pulse" />
+            <span className="preview-loading-text">Preparing live preview...</span>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export function Projects({ navigate }: ProjectsProps) {
+  const { caseStudies } = portfolioData
 
   return (
     <section className="section-block" id="work">
@@ -225,7 +225,7 @@ export function Projects({ navigate }: ProjectsProps) {
             </div>
 
             <div className="project-display">
-              {renderProjectVisual(project)}
+              <ProjectLivePreview project={project} />
             </div>
           </article>
         ))}
