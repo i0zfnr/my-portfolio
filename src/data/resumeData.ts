@@ -11,6 +11,8 @@ export interface CaseStudy {
   summary: string
   githubUrl?: string
   liveUrl?: string
+  screenshotUrl?: string
+  screenshotAlt?: string
   overview: string
   problem: string
   solution: string
@@ -82,7 +84,9 @@ export const portfolioData = {
       stack: ['Laravel', 'PHP', 'MySQL', 'Blade', 'PWA'],
       summary:
         'A web application for disability records, welfare assistance requests and inclusive job matching.',
-      liveUrl: 'https://myokucare.ryaze.my.id',
+      liveUrl: 'https://myokucare.ryz.my.id',
+      screenshotUrl: '/projects/myokucare.png',
+      screenshotAlt: 'MyOKUCare welfare management system interface',
       overview:
         'MyOKUCare centralises registration for persons with disabilities (OKU), welfare assistance processing, and inclusive job matching into a unified, accessible web system. The platform provides structured digital workflows bridging community applicants with welfare officers and registered inclusive employers.',
       problem:
@@ -128,6 +132,8 @@ export const portfolioData = {
         'Developed for managing student affairs processes at Politeknik Besut Terengganu, centralizing scholarship applications, welfare aid, and disciplinary tracking.',
       githubUrl: 'https://github.com/i0zfnr/MyHEP',
       liveUrl: 'https://myhep.ryz.my.id',
+      screenshotUrl: '/projects/myhep.png',
+      screenshotAlt: 'MyHEP student affairs management system interface',
       overview:
         'MyHEP (StudentEdge) is an institutional web platform created for the Student Affairs Department (Hal Ehwal Pelajar) of Politeknik Besut. It automates essential non-academic campus processes into a single secure, role-based interface.',
       problem:
@@ -172,6 +178,8 @@ export const portfolioData = {
       summary:
         'A responsive web platform for publishing and reading interactive digital learning materials and academic course modules across desktop and mobile devices.',
       liveUrl: 'https://ebook.ryz.my.id',
+      screenshotUrl: '/projects/flipbook.png',
+      screenshotAlt: 'FlipBook interactive e-book platform interface',
       overview:
         'FlipBook is a modern web-based academic e-book platform designed for Politeknik Besut to deliver digital learning modules, syllabus guides, and course materials with an interactive, book-like reading experience.',
       problem:

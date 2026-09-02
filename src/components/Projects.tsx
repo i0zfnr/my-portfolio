@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { portfolioData, type CaseStudy } from '../data/resumeData'
 
 interface ProjectsProps {
@@ -6,64 +7,116 @@ interface ProjectsProps {
 
 export function Projects({ navigate }: ProjectsProps) {
   const { caseStudies } = portfolioData
+  const [activePreviewId, setActivePreviewId] = useState<string | null>(null)
 
-  const renderProjectVisual = (project: CaseStudy) => (
-    <div className="project-visual-frame" aria-label={`${project.title} Technical Overview`}>
-      <div className="window-header">
-        <div className="window-dots">
-          <span className="dot" />
-          <span className="dot" />
-          <span className="dot" />
+  const renderProjectVisual = (project: CaseStudy) => {
+    const isLivePreviewActive = activePreviewId === project.id
+    const displayDomain = project.liveUrl
+      ? project.liveUrl.replace(/^https?:\/\//, '')
+      : `${project.id}.ryz.my.id`
+
+    return (
+      <div
+        className="project-visual-frame"
+        aria-label={`${project.title} Interface Preview`}
+      >
+        {/* Minimal Browser Frame Header */}
+        <div className="window-header">
+          <div className="window-dots">
+            <span className="dot" />
+            <span className="dot" />
+            <span className="dot" />
+          </div>
+
+          <span className="window-title">{displayDomain}</span>
+
+          <div className="window-header-actions">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="window-action-link"
+                title={`Open ${displayDomain} in new tab`}
+              >
+                Open Live Site ↗
+              </a>
+            )}
+          </div>
         </div>
-        <span className="window-title">
-          {project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, '') : `SYSTEM SPEC // ${project.id.toUpperCase()}`}
-        </span>
-        <span className="window-meta-tag">{project.year}</span>
+
+        {/* Preview Display Area: Real Screenshot or On-Demand Interactive Iframe */}
+        <div className="project-preview-canvas">
+          {isLivePreviewActive && project.liveUrl ? (
+            <div className="interactive-iframe-container">
+              <iframe
+                src={project.liveUrl}
+                title={`${project.title} Interactive Live Preview`}
+                className="preview-iframe-element"
+                sandbox="allow-scripts allow-same-origin allow-forms"
+                loading="lazy"
+              />
+              <div className="iframe-control-bar">
+                <span className="iframe-note">
+                  Interactive preview session · If restricted by browser CSP, open directly
+                </span>
+                <div className="iframe-btns">
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="iframe-bar-btn"
+                  >
+                    Open Full Site ↗
+                  </a>
+                  <button
+                    type="button"
+                    className="iframe-bar-btn close-btn"
+                    onClick={() => setActivePreviewId(null)}
+                  >
+                    Close Preview ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="preview-screenshot-wrapper">
+              <img
+                src={project.screenshotUrl}
+                alt={project.screenshotAlt || `${project.title} interface screenshot`}
+                className="preview-screenshot-image"
+                loading="lazy"
+                decoding="async"
+              />
+
+              <div className="preview-overlay-bar">
+                {project.liveUrl && (
+                  <>
+                    <button
+                      type="button"
+                      className="preview-action-btn secondary"
+                      onClick={() => setActivePreviewId(project.id)}
+                      title="Load live interactive preview inside frame"
+                    >
+                      Interactive Preview
+                    </button>
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="preview-action-btn primary"
+                    >
+                      Open Live Site ↗
+                    </a>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-
-      <div className="project-spec-composition">
-        <div className="spec-hero-block">
-          <span className="spec-index-label">PROJECT {project.index}</span>
-          <h4 className="spec-system-title">{project.title.toUpperCase()}</h4>
-          <p className="spec-system-sub">{project.subtitle}</p>
-        </div>
-
-        <div className="spec-metadata-grid">
-          <div className="spec-meta-item">
-            <span className="spec-label">ROLE</span>
-            <span className="spec-value">{project.role}</span>
-          </div>
-
-          <div className="spec-meta-item">
-            <span className="spec-label">CLIENT / ORG</span>
-            <span className="spec-value">{project.client}</span>
-          </div>
-
-          <div className="spec-meta-item">
-            <span className="spec-label">TYPE</span>
-            <span className="spec-value">{project.type}</span>
-          </div>
-
-          <div className="spec-meta-item">
-            <span className="spec-label">CORE STACK</span>
-            <span className="spec-value">{project.stack.join(' · ')}</span>
-          </div>
-        </div>
-
-        <div className="spec-modules-box">
-          <span className="spec-modules-label">DELIVERED ARCHITECTURE &amp; MODULES</span>
-          <ul className="spec-modules-list">
-            {project.keyFeatures.slice(0, 3).map((feat, i) => (
-              <li key={i} className="spec-module-item">
-                <span className="spec-module-bullet">0{i + 1}</span>
-                <span>{feat.split(':')[0]}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  )
+    )
+  }
 
   return (
     <section className="section-block" id="work">
@@ -113,7 +166,7 @@ export function Projects({ navigate }: ProjectsProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    View Live Site ↗
+                    Open Live Site ↗
                   </a>
                 )}
 
