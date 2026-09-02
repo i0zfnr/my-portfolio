@@ -5,28 +5,32 @@ export function About() {
 
   return (
     <section className="section-block" id="about">
-      <div className="section-header">
-        <h2 className="section-title">About</h2>
-      </div>
-
-      <div className="about-content">
-        <div className="about-text-column">
-          {personal.aboutShort.map((para, i) => (
-            <p key={i} className="about-paragraph">
-              {para}
-            </p>
-          ))}
+      <div className="about-editorial-layout">
+        <div className="about-editorial-left">
+          <h2 className="about-big-heading">About</h2>
         </div>
 
-        <div className="about-education-column">
-          <h3 className="education-title">Education</h3>
-          <div className="education-card">
-            <h4 className="edu-degree">{personal.education.degree}</h4>
-            <p className="edu-institution">{personal.education.institution}</p>
-            <div className="edu-meta">
-              <span>{personal.education.period}</span>
-              <span className="meta-separator">·</span>
-              <span>CGPA: {personal.education.cgpa}</span>
+        <div className="about-editorial-right">
+          <p className="about-main-bio">
+            {personal.aboutBio}
+          </p>
+
+          <div className="about-meta-editorial-grid">
+            <div className="about-meta-row">
+              <span className="about-meta-label">Education</span>
+              <span className="about-meta-value">
+                {personal.education} — {personal.institution}
+              </span>
+            </div>
+
+            <div className="about-meta-row">
+              <span className="about-meta-label">Location</span>
+              <span className="about-meta-value">{personal.location}</span>
+            </div>
+
+            <div className="about-meta-row">
+              <span className="about-meta-label">Current Focus</span>
+              <span className="about-meta-value">{personal.focus}</span>
             </div>
           </div>
         </div>

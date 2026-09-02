@@ -79,7 +79,7 @@ export function CaseStudy({ projectId, navigate }: CaseStudyProps) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Live Website ↗
+                View Live Site ↗
               </a>
             )}
             {project.githubUrl && (

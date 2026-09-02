@@ -5,9 +5,9 @@ import { useRouter } from './hooks/useRouter'
 import { Navbar } from './components/Navbar'
 import { Hero } from './components/Hero'
 import { Projects } from './components/Projects'
+import { Journey } from './components/Journey'
 import { About } from './components/About'
 import { Skills } from './components/Skills'
-import { Experience } from './components/Experience'
 import { Contact } from './components/Contact'
 import { CaseStudy } from './components/CaseStudy'
 
@@ -51,9 +51,9 @@ export default function App() {
           <>
             <Hero navigateSection={navigateSection} />
             <Projects navigate={navigate} />
+            <Journey />
             <About />
             <Skills />
-            <Experience />
             <Contact />
           </>
         )}

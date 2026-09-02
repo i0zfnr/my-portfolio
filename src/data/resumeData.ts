@@ -32,6 +32,12 @@ export interface SkillCategory {
   skills: string[]
 }
 
+export interface JourneyItem {
+  year: string
+  title: string
+  description: string
+}
+
 export interface TimelineEntry {
   period: string
   title: string
@@ -49,18 +55,13 @@ export const portfolioData = {
     bioHeadline:
       'Diploma IT student building practical web systems for education, public services and digital platforms.',
     techSummary: 'Laravel · PHP · MySQL · JavaScript',
-    aboutShort: [
-      "I'm a Diploma in Information Technology student at Politeknik Besut Terengganu with a focus on web development.",
-      "I enjoy working across the development process — from database design and backend logic to frontend interfaces and deployment.",
-      "My recent work includes systems for student affairs, welfare management and digital learning.",
-    ],
-    education: {
-      degree: 'Diploma in Information Technology',
-      institution: 'Politeknik Besut Terengganu',
-      period: '2024 — Present',
-      cgpa: '3.20',
-    },
-    location: 'Based in Malaysia',
+    aboutBio:
+      "My interest in programming started in 2020 through Arduino and robotics. Since then, I've expanded into web development and now focus on building practical full-stack web applications.",
+    education: 'Diploma in Information Technology',
+    institution: 'Politeknik Besut Terengganu',
+    focus: 'Full-Stack Web Development',
+    startedCoding: '2020',
+    location: 'Malaysia',
     status: 'Available for Internship',
     email: 'irfanhafizul123@gmail.com',
     phone: '017-976 4854',
@@ -204,66 +205,46 @@ export const portfolioData = {
   skillsMatrix: [
     {
       category: 'Frontend',
-      skills: ['HTML5', 'CSS3', 'JavaScript', 'Blade', 'Responsive Design', 'React'],
+      skills: ['HTML', 'CSS', 'JavaScript', 'Blade'],
     },
     {
       category: 'Backend',
-      skills: ['PHP', 'Laravel', 'REST APIs', 'Node.js'],
+      skills: ['PHP', 'Laravel', 'REST API'],
     },
     {
       category: 'Database',
-      skills: ['MySQL', 'Database Design', 'Relational Modeling'],
+      skills: ['MySQL', 'Database Design'],
     },
     {
       category: 'Tools',
-      skills: ['Git', 'GitHub', 'VS Code', 'Vite', 'Composer', 'npm'],
-    },
-    {
-      category: 'Other',
-      skills: ['PWA', 'UI/UX Design', 'Web Accessibility (WCAG)', 'Deployment'],
+      skills: ['Git', 'GitHub', 'VS Code', 'Vite'],
     },
   ] as SkillCategory[],
 
-  timeline: [
+  journey: [
     {
-      period: '2026',
-      title: 'Real-World Systems',
-      organization: 'MyOKUCare · MyHEP/StudentEdge · FlipBook',
-      type: 'project',
-      details:
-        'Developed MyOKUCare, MyHEP/StudentEdge, and FlipBook, moving from smaller programming projects toward complete web systems.',
+      year: '2020',
+      title: 'Arduino & Robotics',
+      description:
+        'Started exploring programming through Arduino and sumo robot development and participated in an RBTX Petrosains robotics competition.',
     },
     {
-      period: '2025–2026',
-      title: 'Full-Stack Development',
-      organization: 'Laravel · PHP · MySQL · JavaScript · PWA',
-      type: 'project',
-      details:
-        'Moved into larger web projects using Laravel, PHP, MySQL, JavaScript, and PWA technologies.',
-    },
-    {
-      period: '2024 — Present',
-      title: 'Diploma in Information Technology',
-      organization: 'Politeknik Besut Terengganu',
-      type: 'education',
-      details:
-        'Continued my studies at Politeknik Besut Terengganu, expanding into web development, databases, networking, and software development.',
-    },
-    {
-      period: '2022/2023',
+      year: '2022/2023',
       title: 'Computer Science',
-      organization: 'Form 4 & 5 Foundation',
-      type: 'education',
-      details:
-        'Studied Computer Science in Form 4, developing a stronger foundation in programming and computational thinking.',
+      description:
+        'Studied Computer Science during secondary school and developed a stronger programming foundation.',
     },
     {
-      period: '2020',
-      title: 'First Steps in Coding & Robotics',
-      organization: 'Arduino & RBTX Petrosains',
-      type: 'project',
-      details:
-        'Started exploring programming through Arduino and sumo robot development, later participating in an RBTX Petrosains robotics competition.',
+      year: '2024',
+      title: 'Diploma in Information Technology',
+      description:
+        'Continued studying IT at Politeknik Besut Terengganu, expanding into web development, databases, networking, and software development.',
     },
-  ] as TimelineEntry[],
+    {
+      year: '2025–2026',
+      title: 'Full-Stack Development',
+      description:
+        'Progressed into developing larger web applications using Laravel, PHP, MySQL and JavaScript.',
+    },
+  ] as JourneyItem[],
 }

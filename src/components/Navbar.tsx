@@ -43,6 +43,13 @@ export function Navbar({ currentPath, navigate, navigateSection }: NavbarProps) 
           <button
             type="button"
             className="nav-link"
+            onClick={() => handleNavClick('journey')}
+          >
+            Journey
+          </button>
+          <button
+            type="button"
+            className="nav-link"
             onClick={() => handleNavClick('about')}
           >
             About
@@ -53,13 +60,6 @@ export function Navbar({ currentPath, navigate, navigateSection }: NavbarProps) 
             onClick={() => handleNavClick('skills')}
           >
             Skills
-          </button>
-          <button
-            type="button"
-            className="nav-link"
-            onClick={() => handleNavClick('experience')}
-          >
-            Experience
           </button>
           <a
             className="nav-link resume-link"
