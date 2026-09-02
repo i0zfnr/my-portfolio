@@ -19,6 +19,10 @@ export function Hero({ navigateSection }: HeroProps) {
           {personal.bioHeadline}
         </p>
 
+        <p className="hero-tech-line">
+          {personal.techSummary}
+        </p>
+
         <div className="hero-cta-group">
           <button
             type="button"

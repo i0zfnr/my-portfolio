@@ -17,7 +17,7 @@ export function Projects({ navigate }: ProjectsProps) {
               <span className="dot" />
               <span className="dot" />
             </div>
-            <span className="window-title">myokucare.jkm.gov.my / dashboard</span>
+            <span className="window-title">MyOKUCare</span>
           </div>
           <div className="window-body">
             <div className="app-mock-sidebar">
@@ -30,23 +30,23 @@ export function Projects({ navigate }: ProjectsProps) {
             </div>
             <div className="app-mock-content">
               <div className="mock-topbar">
-                <span className="mock-badge">JKM Officer Portal</span>
-                <span className="mock-status">RBAC: Active Session</span>
+                <span className="mock-badge">Welfare Officer Portal</span>
+                <span className="mock-status">Role-Based Access</span>
               </div>
               <div className="mock-card-row">
                 <div className="mock-metric-card">
-                  <span className="metric-num">Verified</span>
-                  <span className="metric-text">Kad OKU Verification Queue</span>
+                  <span className="metric-num">Verification Queue</span>
+                  <span className="metric-text">Kad OKU &amp; Identity Review</span>
                 </div>
                 <div className="mock-metric-card">
-                  <span className="metric-num">Applications</span>
-                  <span className="metric-text">Welfare Aid Review &amp; SOP</span>
+                  <span className="metric-num">Assistance Pipeline</span>
+                  <span className="metric-text">Welfare Application Review</span>
                 </div>
               </div>
               <div className="mock-table">
                 <div className="table-header-row">
-                  <span>Applicant ID</span>
-                  <span>Disability Category</span>
+                  <span>Record ID</span>
+                  <span>Category</span>
                   <span>Status</span>
                 </div>
                 <div className="table-row">
@@ -58,6 +58,11 @@ export function Projects({ navigate }: ProjectsProps) {
                   <span>OKU-2026-0845</span>
                   <span>Hearing Impairment</span>
                   <span className="table-badge review">In Review</span>
+                </div>
+                <div className="table-row">
+                  <span>OKU-2026-0891</span>
+                  <span>Visual Impairment</span>
+                  <span className="table-badge approved">Approved</span>
                 </div>
               </div>
             </div>
@@ -75,36 +80,36 @@ export function Projects({ navigate }: ProjectsProps) {
               <span className="dot" />
               <span className="dot" />
             </div>
-            <span className="window-title">myhep.polibesut.edu.my / studentedge</span>
+            <span className="window-title">MyHEP / StudentEdge</span>
           </div>
           <div className="window-body">
             <div className="app-mock-sidebar">
-              <div className="mock-brand">MyHEP</div>
+              <div className="mock-brand">StudentEdge</div>
               <div className="mock-nav-item active">Overview</div>
               <div className="mock-nav-item">Scholarships</div>
               <div className="mock-nav-item">Welfare Aid</div>
               <div className="mock-nav-item">Disciplinary</div>
-              <div className="mock-nav-item">Outing / Leave</div>
+              <div className="mock-nav-item">Leave Permissions</div>
             </div>
             <div className="app-mock-content">
               <div className="mock-topbar">
-                <span className="mock-badge">Student Affairs (HEP)</span>
-                <span className="mock-status">Campus Portal</span>
+                <span className="mock-badge">Student Affairs Management</span>
+                <span className="mock-status">Politeknik Besut</span>
               </div>
               <div className="mock-card-row">
                 <div className="mock-metric-card">
                   <span className="metric-num">Scholarships</span>
-                  <span className="metric-text">Vetting &amp; Review Pipeline</span>
+                  <span className="metric-text">Application &amp; Vetting Process</span>
                 </div>
                 <div className="mock-metric-card">
-                  <span className="metric-num">Student Aid</span>
+                  <span className="metric-num">Student Welfare</span>
                   <span className="metric-text">Emergency Support Tracking</span>
                 </div>
               </div>
               <div className="mock-table">
                 <div className="table-header-row">
                   <span>Student ID</span>
-                  <span>Module Request</span>
+                  <span>Application / Module</span>
                   <span>Decision</span>
                 </div>
                 <div className="table-row">
@@ -114,8 +119,13 @@ export function Projects({ navigate }: ProjectsProps) {
                 </div>
                 <div className="table-row">
                   <span>13DIT24F1034</span>
-                  <span>Hostel Weekend Movement</span>
+                  <span>Hostel Movement Request</span>
                   <span className="table-badge neutral">Approved</span>
+                </div>
+                <div className="table-row">
+                  <span>13DIT24F1082</span>
+                  <span>Campus Welfare Assistance</span>
+                  <span className="table-badge review">Under Review</span>
                 </div>
               </div>
             </div>
@@ -132,31 +142,31 @@ export function Projects({ navigate }: ProjectsProps) {
             <span className="dot" />
             <span className="dot" />
           </div>
-          <span className="window-title">flipbook.polibesut.edu.my / reader</span>
+          <span className="window-title">FlipBook</span>
         </div>
         <div className="window-body flipbook-body">
           <div className="flipbook-reader-layout">
             <div className="reader-toc">
               <span className="toc-title">Table of Contents</span>
-              <span className="toc-item active">01. Course Overview</span>
-              <span className="toc-item">02. Web Architecture</span>
-              <span className="toc-item">03. Database Relational Modeling</span>
-              <span className="toc-item">04. API Integration &amp; REST</span>
+              <span className="toc-item active">01. Introduction to Web Tech</span>
+              <span className="toc-item">02. Relational Database Modeling</span>
+              <span className="toc-item">03. REST API Architecture</span>
+              <span className="toc-item">04. Frontend Performance</span>
             </div>
             <div className="reader-page-spread">
               <div className="reader-page left-page">
                 <span className="page-chapter">Chapter 02</span>
-                <h4>Web System Architecture</h4>
-                <p>Digital learning modules optimized for continuous client reading across mobile and desktop displays.</p>
+                <h4>Database Architecture</h4>
+                <p>Digital learning modules formatted for continuous client reading across both mobile and desktop screens.</p>
                 <div className="code-snippet-preview">
                   <code>composer create-project laravel/laravel</code>
                 </div>
                 <span className="page-footer">Page 24</span>
               </div>
               <div className="reader-page right-page">
-                <span className="page-chapter">Politeknik Besut</span>
-                <h4>Responsive Reader View</h4>
-                <p>Hardware-accelerated CSS page turns with low latency and clear typographical contrast ratios.</p>
+                <span className="page-chapter">Interactive Reader</span>
+                <h4>Responsive Page View</h4>
+                <p>Hardware-accelerated CSS page transitions with low latency, clear typography, and touch support.</p>
                 <span className="page-footer">Page 25</span>
               </div>
             </div>
@@ -171,7 +181,7 @@ export function Projects({ navigate }: ProjectsProps) {
       <div className="section-header">
         <h2 className="section-title">Selected Work</h2>
         <p className="section-subtitle">
-          Practical web systems engineered for public sector welfare, higher education administration, and digital academic publishing.
+          Selected projects I&apos;ve designed and developed during my Diploma studies and client-based work.
         </p>
       </div>
 
@@ -214,7 +224,7 @@ export function Projects({ navigate }: ProjectsProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Live Website ↗
+                    View Live Site ↗
                   </a>
                 )}
 

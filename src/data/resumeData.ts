@@ -47,7 +47,8 @@ export const portfolioData = {
     title: 'Full-Stack Web Developer',
     roleTag: 'Diploma in IT Student',
     bioHeadline:
-      'Diploma in Information Technology student building practical web applications for education, administration and community services.',
+      'Diploma IT student building practical web systems for education, public services and digital platforms.',
+    techSummary: 'Laravel · PHP · MySQL · JavaScript',
     aboutShort: [
       "I'm a Diploma in Information Technology student at Politeknik Besut Terengganu with a focus on web development.",
       "I enjoy working across the development process — from database design and backend logic to frontend interfaces and deployment.",
@@ -168,8 +169,6 @@ export const portfolioData = {
       stack: ['React', 'TypeScript', 'Laravel API', 'Tailwind CSS', 'Vite'],
       summary:
         'A responsive web platform for publishing and reading interactive digital learning materials and academic course modules across desktop and mobile devices.',
-      githubUrl: 'https://github.com/i0zfnr',
-      liveUrl: 'https://portfolio.ryz.my.id',
       overview:
         'FlipBook is a modern web-based academic e-book platform designed for Politeknik Besut to deliver digital learning modules, syllabus guides, and course materials with an interactive, book-like reading experience.',
       problem:
