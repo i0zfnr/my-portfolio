@@ -13,6 +13,7 @@ export interface CaseStudy {
   liveUrl?: string
   screenshotUrl?: string
   screenshotAlt?: string
+  refusedToConnect?: boolean
   overview: string
   problem: string
   solution: string
@@ -38,6 +39,20 @@ export interface JourneyItem {
   year: string
   title: string
   description: string
+}
+
+export interface ServiceItem {
+  id: string
+  number: string
+  title: string
+  description: string
+  techLabel: string
+  stack: string[]
+  capabilities: string[]
+  relatedProject?: {
+    name: string
+    id?: string
+  }
 }
 
 export interface TimelineEntry {
@@ -178,6 +193,7 @@ export const portfolioData = {
       summary:
         'A responsive web platform for publishing and reading interactive digital learning materials and academic course modules across desktop and mobile devices.',
       liveUrl: 'https://ebook.ryz.my.id',
+      refusedToConnect: true,
       screenshotUrl: '/projects/flipbook.png',
       screenshotAlt: 'FlipBook interactive e-book platform interface',
       overview:
@@ -258,4 +274,112 @@ export const portfolioData = {
         'Progressed into developing larger web applications using Laravel, PHP, MySQL and JavaScript.',
     },
   ] as JourneyItem[],
+
+  services: [
+    {
+      id: 'web-apps',
+      number: '01',
+      title: 'Web Application Development',
+      description:
+        'I build responsive web applications designed around real workflows and user requirements, from planning and database structure to development, testing and deployment.',
+      techLabel: 'Laravel · PHP · MySQL · JavaScript',
+      stack: ['Laravel', 'PHP', 'MySQL', 'JavaScript'],
+      capabilities: [
+        'Management systems',
+        'Student or staff portals',
+        'Admin dashboards',
+        'Database-driven applications',
+        'Authentication and role-based access',
+        'Responsive interfaces',
+      ],
+      relatedProject: {
+        name: 'MyOKUCare & MyHEP',
+        id: 'myokucare',
+      },
+    },
+    {
+      id: 'laravel-php',
+      number: '02',
+      title: 'Laravel & PHP Development',
+      description:
+        'Development and improvement of Laravel-based systems including backend logic, database integration, authentication, dashboards and application features.',
+      techLabel: 'Laravel · PHP · MySQL · Blade · Vite',
+      stack: ['Laravel', 'PHP', 'MySQL', 'Blade', 'Vite'],
+      capabilities: [
+        'Laravel application development',
+        'Existing system improvements',
+        'CRUD modules',
+        'Database integration',
+        'Authentication',
+        'Role and permission systems',
+        'API integration',
+      ],
+      relatedProject: {
+        name: 'MyHEP & MyOKUCare',
+        id: 'myhep',
+      },
+    },
+    {
+      id: 'frontend',
+      number: '03',
+      title: 'Responsive Front-End Development',
+      description:
+        'I create clean and responsive interfaces that work across desktop, tablet and mobile while keeping usability, accessibility and performance in mind.',
+      techLabel: 'HTML · CSS · JavaScript · Blade',
+      stack: ['HTML', 'CSS', 'JavaScript', 'Blade'],
+      capabilities: [
+        'Responsive layouts',
+        'Dashboard interfaces',
+        'Mobile-first interfaces',
+        'UI implementation',
+        'Accessibility improvements',
+        'Performance optimisation',
+      ],
+      relatedProject: {
+        name: 'FlipBook & MyOKUCare',
+        id: 'flipbook',
+      },
+    },
+    {
+      id: 'pwa',
+      number: '04',
+      title: 'Progressive Web Apps',
+      description:
+        'I can turn compatible web applications into installable Progressive Web Apps with mobile-friendly behaviour and app-like experiences.',
+      techLabel: 'PWA · Service Worker · Web Manifest · Notifications',
+      stack: ['PWA', 'Service Worker', 'Web Manifest', 'Notifications'],
+      capabilities: [
+        'Installable web applications',
+        'Web app manifest',
+        'Service worker integration',
+        'Offline behaviour',
+        'Push notification integration',
+        'Mobile optimisation',
+      ],
+      relatedProject: {
+        name: 'MyOKUCare & MyHEP',
+        id: 'myokucare',
+      },
+    },
+    {
+      id: 'deployment',
+      number: '05',
+      title: 'System Deployment & Integration',
+      description:
+        'I help prepare web systems for deployment, configure application environments and integrate supporting services required by the application.',
+      techLabel: 'Git · GitHub · Hosting · Cloudflare',
+      stack: ['Git', 'GitHub', 'Hosting', 'Cloudflare'],
+      capabilities: [
+        'Deployment preparation',
+        'Domain configuration',
+        'HTTPS',
+        'Environment configuration',
+        'Git-based deployment',
+        'Basic server configuration',
+      ],
+      relatedProject: {
+        name: 'Live Deployments (ryz.my.id)',
+      },
+    },
+  ] as ServiceItem[],
 }

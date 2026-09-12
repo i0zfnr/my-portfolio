@@ -4,28 +4,25 @@ export function Journey() {
   const { journey } = portfolioData
 
   return (
-    <section className="section-block" id="journey">
-      <div className="section-header">
-        <h2 className="section-title">Development Journey</h2>
-        <p className="section-subtitle">
-          My progression from first programming explorations in robotics toward building full-stack web applications.
-        </p>
-      </div>
+    <section className="section-block journey-section" id="journey" aria-labelledby="journey-title">
+      <div className="site-container">
+        <div className="section-heading reveal-on-scroll">
+          <p className="section-label">04 · Journey</p>
+          <h2 id="journey-title">A steady climb from circuits to systems.</h2>
+        </div>
 
-      <div className="journey-grid">
-        {journey.map((step, index) => (
-          <div className="journey-column-item" key={index}>
-            <div className="journey-marker-row">
-              <span className="journey-year-pill">{step.year}</span>
-              <span className="journey-line-connector" />
-            </div>
-
-            <div className="journey-content-box">
-              <h3 className="journey-item-title">{step.title}</h3>
-              <p className="journey-item-desc">{step.description}</p>
-            </div>
-          </div>
-        ))}
+        <ol className="journey-list">
+          {journey.map((step, index) => (
+            <li className="journey-item reveal-on-scroll" key={`${step.year}-${step.title}`}>
+              <span className="journey-index">{String(index + 1).padStart(2, '0')}</span>
+              <time>{step.year}</time>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )

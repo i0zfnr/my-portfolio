@@ -1,157 +1,143 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { portfolioData, type CaseStudy } from '../data/resumeData'
 
 interface ProjectsProps {
   navigate: (path: string) => void
 }
 
-type ViewportMode = 'desktop' | 'tablet' | 'mobile'
+type PreviewStatus = 'idle' | 'checking' | 'loading' | 'ready' | 'error'
 
-function ProjectLivePreview({ project }: { project: CaseStudy }) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [shouldLoad, setShouldLoad] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [viewport, setViewport] = useState<ViewportMode>('desktop')
-  const [loadError, setLoadError] = useState(false)
-
-  const displayDomain = project.liveUrl
-    ? project.liveUrl.replace(/^https?:\/\//, '')
-    : `${project.id}.ryz.my.id`
+function ProjectLivePreview({ project, priority }: { project: CaseStudy; priority: boolean }) {
+  const previewRef = useRef<HTMLDivElement>(null)
+  const [shouldLoad, setShouldLoad] = useState(priority)
+  const [status, setStatus] = useState<PreviewStatus>(priority ? 'checking' : 'idle')
+  const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
+    if (shouldLoad) return
 
-    // Fallback if IntersectionObserver is unsupported
-    if (!('IntersectionObserver' in window)) {
+    const preview = previewRef.current
+    if (!preview || !('IntersectionObserver' in window)) {
       setShouldLoad(true)
       return
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setShouldLoad(true)
-            observer.disconnect()
-            break
-          }
-        }
-      },
-      {
-        rootMargin: '300px 0px',
-        threshold: 0.01,
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setShouldLoad(true)
+        observer.disconnect()
       }
-    )
+    }, { rootMargin: '320px 0px', threshold: 0.01 })
 
-    observer.observe(el)
+    observer.observe(preview)
+    return () => observer.disconnect()
+  }, [shouldLoad])
+
+  useEffect(() => {
+    if (!shouldLoad || !project.liveUrl || project.refusedToConnect) return
+
+    let cancelled = false
+    setStatus('checking')
+
+    fetch(project.liveUrl, { mode: 'no-cors', cache: 'no-store' })
+      .then(() => {
+        if (!cancelled) setStatus('loading')
+      })
+      .catch(() => {
+        if (!cancelled) setStatus('error')
+      })
 
     return () => {
-      observer.disconnect()
+      cancelled = true
     }
-  }, [])
+  }, [attempt, project.liveUrl, project.refusedToConnect, shouldLoad])
+
+  const retryPreview = () => {
+    setStatus('checking')
+    setAttempt((value) => value + 1)
+  }
+
+  const displayDomain = project.liveUrl?.replace(/^https?:\/\//, '') ?? project.title
+  const showLiveSite = Boolean(project.liveUrl && shouldLoad && (status === 'loading' || status === 'ready')) && !project.refusedToConnect
 
   return (
-    <div
-      ref={containerRef}
-      className="project-visual-frame"
-      aria-label={`${project.title} Live Application Window`}
-    >
-      {/* Browser Frame Window Header */}
-      <div className="window-header">
-        <div className="window-dots">
-          <span className="dot" />
-          <span className="dot" />
-          <span className="dot" />
-        </div>
+    <div ref={previewRef} className={`project-visual live-preview-${project.refusedToConnect ? 'refused' : status}`}>
+      {!project.refusedToConnect && (
+        <img
+          className="project-preview-poster"
+          src={project.screenshotUrl}
+          alt={project.screenshotAlt ?? `${project.title} interface`}
+          loading={priority ? 'eager' : 'lazy'}
+          aria-hidden={status === 'ready'}
+        />
+      )}
 
-        <span className="window-title">{displayDomain}</span>
-
-        <div className="window-header-controls">
-          <div
-            className="viewport-toggle-group"
-            role="group"
-            aria-label="Simulated viewport size"
-          >
-            <button
-              type="button"
-              className={`viewport-btn ${viewport === 'desktop' ? 'active' : ''}`}
-              onClick={() => setViewport('desktop')}
-            >
-              Desktop
-            </button>
-            <button
-              type="button"
-              className={`viewport-btn ${viewport === 'tablet' ? 'active' : ''}`}
-              onClick={() => setViewport('tablet')}
-            >
-              Tablet
-            </button>
-            <button
-              type="button"
-              className={`viewport-btn ${viewport === 'mobile' ? 'active' : ''}`}
-              onClick={() => setViewport('mobile')}
-            >
-              Mobile
-            </button>
+      {project.refusedToConnect ? (
+        <div className="project-refused-connect" role="region" aria-label={`${displayDomain} refused to connect`}>
+          <div className="refused-connect-card">
+            <div className="refused-connect-icon" aria-hidden="true">
+              <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
+                <path
+                  d="M12 6C9.79 6 8 7.79 8 10V38C8 40.21 9.79 42 12 42H36C38.21 42 40 40.21 40 38V18L28 6H12Z"
+                  className="refused-page-bg"
+                />
+                <path
+                  d="M28 6V18H40L28 6Z"
+                  className="refused-page-fold"
+                />
+                <circle cx="24" cy="28.5" r="2.5" className="refused-page-mark" />
+                <rect x="22.25" y="19" width="3.5" height="6.5" rx="1.75" className="refused-page-mark" />
+              </svg>
+            </div>
+            <h3 className="refused-connect-heading">
+              <strong>{displayDomain}</strong> refused to connect.
+            </h3>
+            <div className="refused-connect-body">
+              <p>Try:</p>
+              <ul>
+                <li>Checking the connection</li>
+                <li>Checking the proxy and the firewall</li>
+              </ul>
+            </div>
+            <div className="refused-connect-code">ERR_CONNECTION_REFUSED</div>
           </div>
-
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="window-action-link"
-              title={`Open ${displayDomain} in new tab`}
-            >
-              Open Full Site ↗
-            </a>
-          )}
         </div>
+      ) : (
+        showLiveSite && (
+          <iframe
+            key={`${project.id}-${attempt}`}
+            className="project-live-iframe"
+            src={project.liveUrl}
+            title={`${project.title} live website preview`}
+            loading={priority ? 'eager' : 'lazy'}
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
+            allowFullScreen
+            onLoad={() => setStatus('ready')}
+            onError={() => setStatus('error')}
+          />
+        )
+      )}
+
+      <div className="project-browser-bar">
+        <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
+        <small>{displayDomain}</small>
+        {status === 'ready' && !project.refusedToConnect && <strong><i aria-hidden="true" /> Live</strong>}
       </div>
 
-      {/* Browser Body: Auto-loaded live iframe with subtle loading state */}
-      <div className="project-preview-canvas">
-        {shouldLoad && project.liveUrl ? (
-          <div className={`preview-viewport-stage viewport-${viewport}`}>
-            {isLoading && !loadError && (
-              <div className="preview-loading-overlay">
-                <span className="preview-loading-pulse" />
-                <span className="preview-loading-text">Loading live application...</span>
-              </div>
-            )}
+      {!project.refusedToConnect && (status === 'checking' || status === 'loading') && (
+        <div className="project-preview-status" role="status">
+          <span className="preview-spinner" aria-hidden="true" />
+          Opening live preview…
+        </div>
+      )}
 
-            {loadError ? (
-              <div className="preview-error-fallback">
-                <p className="preview-error-title">Live preview unavailable.</p>
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary"
-                >
-                  Open Full Site ↗
-                </a>
-              </div>
-            ) : (
-              <iframe
-                src={project.liveUrl}
-                title={`${project.title} Live Application`}
-                className={`live-application-iframe ${isLoading ? 'is-loading' : 'is-ready'}`}
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
-                onLoad={() => setIsLoading(false)}
-                onError={() => setLoadError(true)}
-              />
-            )}
-          </div>
-        ) : (
-          <div className="preview-loading-overlay">
-            <span className="preview-loading-pulse" />
-            <span className="preview-loading-text">Preparing live preview...</span>
-          </div>
-        )}
-      </div>
+      {!project.refusedToConnect && status === 'error' && (
+        <div className="project-preview-fallback" role="status">
+          <span>Live preview is temporarily unavailable.</span>
+          <button type="button" onClick={retryPreview}>Try again</button>
+          {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">Open site ↗</a>}
+        </div>
+      )}
     </div>
   )
 }
@@ -160,75 +146,49 @@ export function Projects({ navigate }: ProjectsProps) {
   const { caseStudies } = portfolioData
 
   return (
-    <section className="section-block" id="work">
-      <div className="section-header">
-        <h2 className="section-title">Selected Work</h2>
-        <p className="section-subtitle">
-          Selected projects I&apos;ve designed and developed during my Diploma studies and client-based work.
-        </p>
-      </div>
+    <section className="section-block projects-section" id="work" aria-labelledby="work-title">
+      <div className="site-container">
+        <div className="section-heading reveal-on-scroll">
+          <p className="section-label">01 · Selected work</p>
+          <h2 id="work-title">Built for real workflows.</h2>
+          <p>
+            Three working products across welfare, student affairs, and digital learning—each shaped around the people using it.
+          </p>
+        </div>
 
-      <div className="projects-showcase">
-        {caseStudies.map((project) => (
-          <article className="project-feature" key={project.id}>
-            <div className="project-info">
-              <div className="project-index-line">
-                <span className="project-number">{project.index}</span>
-                <span className="project-divider">/</span>
-                <span className="project-client">{project.client}</span>
+        <div className="project-list">
+          {caseStudies.map((project, index) => (
+            <article className="project-card reveal-on-scroll" key={project.id}>
+              <ProjectLivePreview project={project} priority={index === 0} />
+
+              <div className="project-copy">
+                <div className="project-meta">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <span>{project.year}</span>
+                  <span>{project.type}</span>
+                </div>
+                <h3>{project.title}</h3>
+                <p className="project-subtitle">{project.subtitle}</p>
+                <p className="project-summary">{project.summary}</p>
+
+                <ul className="tag-list" aria-label={`${project.title} technologies`}>
+                  {project.stack.map((technology) => <li key={technology}>{technology}</li>)}
+                </ul>
+
+                <div className="project-actions">
+                  <button type="button" className="text-link" onClick={() => navigate(`/projects/${project.id}`)}>
+                    Read case study <span aria-hidden="true">↗</span>
+                  </button>
+                  {project.liveUrl && (
+                    <a className="text-link text-link-muted" href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                      Visit live site <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+                </div>
               </div>
-
-              <h3 className="project-heading">{project.title}</h3>
-              <p className="project-sub">{project.subtitle}</p>
-
-              <p className="project-summary">{project.summary}</p>
-
-              <div className="tech-stack-row">
-                {project.stack.map((tech) => (
-                  <span className="tech-tag" key={tech}>
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              <div className="project-links-row">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => navigate(`/projects/${project.id}`)}
-                >
-                  View Case Study →
-                </button>
-
-                {project.liveUrl && (
-                  <a
-                    className="btn btn-secondary"
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Open Full Site ↗
-                  </a>
-                )}
-
-                {project.githubUrl && (
-                  <a
-                    className="btn btn-secondary"
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    GitHub ↗
-                  </a>
-                )}
-              </div>
-            </div>
-
-            <div className="project-display">
-              <ProjectLivePreview project={project} />
-            </div>
-          </article>
-        ))}
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   )

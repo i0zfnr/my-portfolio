@@ -4,35 +4,26 @@ export function About() {
   const { personal } = portfolioData
 
   return (
-    <section className="section-block" id="about">
-      <div className="about-editorial-layout">
-        <div className="about-editorial-left">
-          <h2 className="about-big-heading">About</h2>
+    <section className="section-block about-section" id="about" aria-labelledby="about-title">
+      <div className="site-container about-layout">
+        <div className="about-heading reveal-on-scroll">
+          <p className="section-label">03 · About</p>
+          <h2 id="about-title">Curious by nature.<br />Practical by choice.</h2>
         </div>
 
-        <div className="about-editorial-right">
-          <p className="about-main-bio">
-            {personal.aboutBio}
+        <div className="about-copy reveal-on-scroll">
+          <p className="about-lead">{personal.aboutBio}</p>
+          <p>
+            Today I focus on full-stack development—building secure Laravel systems,
+            responsive interfaces, and installable web experiences that solve everyday problems.
           </p>
 
-          <div className="about-meta-editorial-grid">
-            <div className="about-meta-row">
-              <span className="about-meta-label">Education</span>
-              <span className="about-meta-value">
-                {personal.education} — {personal.institution}
-              </span>
-            </div>
-
-            <div className="about-meta-row">
-              <span className="about-meta-label">Location</span>
-              <span className="about-meta-value">{personal.location}</span>
-            </div>
-
-            <div className="about-meta-row">
-              <span className="about-meta-label">Current Focus</span>
-              <span className="about-meta-value">{personal.focus}</span>
-            </div>
-          </div>
+          <dl className="about-facts">
+            <div><dt>Based in</dt><dd>{personal.location}</dd></div>
+            <div><dt>Studying</dt><dd>{personal.education}</dd></div>
+            <div><dt>Institution</dt><dd>{personal.institution}</dd></div>
+            <div><dt>Started coding</dt><dd>{personal.startedCoding}</dd></div>
+          </dl>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { portfolioData } from '../data/resumeData'
+import { AntigravityParticles } from './AntigravityParticles'
 
 interface HeroProps {
   navigateSection: (sectionId: string) => void
@@ -8,94 +9,44 @@ export function Hero({ navigateSection }: HeroProps) {
   const { personal } = portfolioData
 
   return (
-    <section className="hero-section" id="top">
-      <div className="hero-layout-grid">
-        {/* Left Column: Core Introduction */}
-        <div className="hero-main-col">
-          <div className="hero-header">
-            <h1 className="hero-name">{personal.name}</h1>
-            <p className="hero-title">{personal.title}</p>
-          </div>
+    <section className="hero-section" id="top" aria-labelledby="hero-title">
+      <AntigravityParticles />
 
-          <p className="hero-bio">{personal.bioHeadline}</p>
-
-          <p className="hero-tech-line">{personal.techSummary}</p>
-
-          <div className="hero-cta-group">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => navigateSection('work')}
-            >
-              View my work
-            </button>
-            <a
-              className="btn btn-secondary"
-              href={personal.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download Resume ↓
-            </a>
-          </div>
+      <div className="site-container hero-inner">
+        <div className="hero-status" aria-label={personal.status}>
+          <span className="status-dot" aria-hidden="true" />
+          <span>{personal.status}</span>
         </div>
 
-        {/* Right Column: Editorial Developer Information Panel */}
-        <div className="hero-panel-col">
-          <aside className="developer-info-panel" aria-label="Developer Profile Details">
-            <div className="panel-status-header">
-              <span className="status-indicator-dot" />
-              <span className="panel-status-tag">{personal.status.toUpperCase()}</span>
-            </div>
+        <div className="hero-copy">
+          <p className="hero-kicker">Hafizul Irfan · Full-stack web developer</p>
+          <h1 className="hero-heading" id="hero-title">
+            I build practical systems
+            <span>for the people who use them.</span>
+          </h1>
+          <p className="hero-intro">
+            A Diploma in IT student turning real education, welfare, and public-service
+            workflows into accessible web applications.
+          </p>
+        </div>
 
-            <div className="panel-data-list">
-              <div className="panel-data-row">
-                <span className="panel-data-label">Location</span>
-                <span className="panel-data-value">{personal.location}</span>
-              </div>
+        <div className="hero-actions">
+          <button className="button button-primary" type="button" onClick={() => navigateSection('work')}>
+            Explore my work
+            <span aria-hidden="true">↘</span>
+          </button>
+          <a className="button button-secondary" href={personal.resumeUrl} target="_blank" rel="noopener noreferrer">
+            View résumé
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
 
-              <div className="panel-data-row">
-                <span className="panel-data-label">Education</span>
-                <span className="panel-data-value">{personal.education}</span>
-              </div>
-
-              <div className="panel-data-row">
-                <span className="panel-data-label">Institution</span>
-                <span className="panel-data-value">{personal.institution}</span>
-              </div>
-
-              <div className="panel-data-row">
-                <span className="panel-data-label">Focus</span>
-                <span className="panel-data-value">{personal.focus}</span>
-              </div>
-
-              <div className="panel-data-row">
-                <span className="panel-data-label">Started Coding</span>
-                <span className="panel-data-value">{personal.startedCoding}</span>
-              </div>
-
-              <div className="panel-data-row">
-                <span className="panel-data-label">Links</span>
-                <div className="panel-data-links">
-                  <a
-                    href={personal.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="panel-inline-link"
-                  >
-                    GitHub ↗
-                  </a>
-                  <span className="panel-link-sep">/</span>
-                  <a
-                    href={`mailto:${personal.email}`}
-                    className="panel-inline-link"
-                  >
-                    Email ↗
-                  </a>
-                </div>
-              </div>
-            </div>
-          </aside>
+        <div className="hero-footnote" aria-label="Core technologies">
+          <span>Laravel</span>
+          <span>PHP</span>
+          <span>MySQL</span>
+          <span>React</span>
+          <span>PWA</span>
         </div>
       </div>
     </section>

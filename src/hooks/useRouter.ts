@@ -32,21 +32,35 @@ export function useRouter() {
     if (window.location.pathname !== path) {
       window.history.pushState({}, '', path)
       setCurrentPath(path)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      // @ts-expect-error - lenis global instance
+      if (window.__lenis) {
+        // @ts-expect-error - lenis global instance
+        window.__lenis.scrollTo(0, { immediate: true })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     }
   }, [])
 
   const navigateSection = useCallback((sectionId: string) => {
+    const performScroll = () => {
+      const el = document.getElementById(sectionId)
+      if (!el) return
+      // @ts-expect-error - lenis global instance
+      if (window.__lenis) {
+        // @ts-expect-error - lenis global instance
+        window.__lenis.scrollTo(el, { offset: -74, duration: 1.1 })
+      } else {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+
     if (currentPath !== '/') {
       window.history.pushState({}, '', '/')
       setCurrentPath('/')
-      setTimeout(() => {
-        const el = document.getElementById(sectionId)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 50)
+      setTimeout(performScroll, 60)
     } else {
-      const el = document.getElementById(sectionId)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
+      performScroll()
     }
   }, [currentPath])
 
